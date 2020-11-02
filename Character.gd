@@ -1,9 +1,13 @@
 extends KinematicBody2D
 
 
-# Declare member variables here. Examples:
-export var speed = 400  # How fast the player will move (pixels/sec).
+export var alpha = PI  # How fast the player will move (rads/sec).
 var screen_size  # Size of the game window.
+var theta = 0.0 # Degrees rotation - 0 is top middle
+var r = 50 # Distance from center 
+var floor_r = 50
+var center_x = 50.0
+var center_y = 50.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,15 +25,18 @@ func _process(delta):
 		velocity.y += 1
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
+		
 	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
 		$Pivot/Body.animation = "walk"
 	else:
 		$Pivot/Body.animation = "idle"
-	position += velocity * delta
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
+		
+
+	theta += alpha * delta * velocity.x
+	r += alpha * delta * velocity.y
+	r = clamp(r, floor_r, r)
+	position.x = center_x + r * cos(theta)
+	position.y = center_y + r * sin(theta)
+	
 	$Pivot/Body.flip_v = false
 	$Pivot/Body.flip_h = velocity.x < 0
-
-
