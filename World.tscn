@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Obstacle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Character.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Planet.gd" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
 
 [node name="World" type="Node2D"]
 position = Vector2( 112.377, 47.1937 )
@@ -11,3 +14,12 @@ position = Vector2( 112.377, 47.1937 )
 [node name="Obstacle" parent="." instance=ExtResource( 1 )]
 position = Vector2( 10, -5.191 )
 mass = 0.00102041
+
+[node name="Planet" type="StaticBody2D" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+self_modulate = Color( 0, 0, 0, 1 )
+position = Vector2( -101.469, 40.8014 )
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Planet"]
+shape = SubResource( 1 )
