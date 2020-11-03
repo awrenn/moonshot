@@ -9,15 +9,15 @@ export var PLANET_ALPHA = 1/4
 var screen_size  # Size of the game window.
 var center_x
 var center_y
-var FLOOR_R = 200
-var JUMP_STRENGTH = 5
-var GRAVITY = 30
-var THETA_MIN = (5.0/4.0) * PI 
-var THETA_MAX = (7.0/4.0) * PI
+var FLOOR_R = 400
+var JUMP_STRENGTH = 3
+var GRAVITY = 20
+var THETA_MIN = (7.0/6.0) * PI 
+var THETA_MAX = (11.0/6.0) * PI
 
 var velocity = Vector2()
 var theta = 3/2 * PI # Degrees rotation - 0 is top middle
-var r = 200 # Distance from center 
+var r = FLOOR_R # Distance from center 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
