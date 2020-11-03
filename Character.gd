@@ -3,12 +3,18 @@ extends KinematicBody2D
 
 export var alpha = PI 
 export var jump_speed = 300 # How fast the player will move (rads/sec).
+export var planet_alpha = PI / 8
+
+## constants or SSA vars
 var screen_size  # Size of the game window.
 var theta = 0.0 # Degrees rotation - 0 is top middle
 var r = 200 # Distance from center 
 var floor_r = 200
 var center_x
 var center_y
+var jump_strength = 5
+var gravity = 30
+
 var velocity = Vector2()
 
 # Called when the node enters the scene tree for the first time.
@@ -29,9 +35,10 @@ func _process(delta):
 		velocity.x = 0
 		
 	if Input.is_action_pressed("ui_up") && velocity.y == 0:
-		velocity.y = 5
+		velocity.y = jump_strength
 	else:
-		acc.y -= 20
+		acc.y -= gravity
+	theta -= planet_alpha * delta
 		
 	if velocity.x != 0:
 		$Pivot/Body.animation = "walk"
