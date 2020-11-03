@@ -1,21 +1,23 @@
 extends KinematicBody2D
 
 
-export var alpha = PI 
-export var jump_speed = 300 # How fast the player will move (rads/sec).
-export var planet_alpha = PI / 8
+export var ALPHA = PI 
+export var JUMP_SPEED = 300 # How fast the player will move (rads/sec).
+export var PLANET_ALPHA = 1/4
 
 ## constants or SSA vars
 var screen_size  # Size of the game window.
-var theta = 0.0 # Degrees rotation - 0 is top middle
-var r = 200 # Distance from center 
-var floor_r = 200
 var center_x
 var center_y
-var jump_strength = 5
-var gravity = 30
+var FLOOR_R = 200
+var JUMP_STRENGTH = 5
+var GRAVITY = 30
+var THETA_MIN = (5.0/4.0) * PI 
+var THETA_MAX = (7.0/4.0) * PI
 
 var velocity = Vector2()
+var theta = 3/2 * PI # Degrees rotation - 0 is top middle
+var r = 200 # Distance from center 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -35,25 +37,37 @@ func _process(delta):
 		velocity.x = 0
 		
 	if Input.is_action_pressed("ui_up") && velocity.y == 0:
-		velocity.y = jump_strength
+		velocity.y = JUMP_STRENGTH
 	else:
-		acc.y -= gravity
-	theta -= planet_alpha * delta
-		
+		acc.y -= GRAVITY
+	theta -= PLANET_ALPHA * delta
+	theta = float_clamp(theta)
+
 	if velocity.x != 0:
 		$Pivot/Body.animation = "walk"
 	else:
 		$Pivot/Body.animation = "idle"
 		
 	velocity.y += acc.y * delta
-	theta += alpha * delta * velocity.x
-	r += jump_speed * delta * velocity.y
-	if r < floor_r:
-		r = floor_r
+	theta += ALPHA * delta * velocity.x
+	r += JUMP_SPEED * delta * velocity.y
+	if r < FLOOR_R:
+		r = FLOOR_R
 		velocity.y = 0
 		
-	position.x = center_x + r * cos(theta)
-	position.y = center_y + r * sin(theta)
+	position.x = center_x + (r * cos(theta))
+	position.y = center_y + (r * sin(theta))
 	
 	$Pivot/Body.flip_v = false
 	$Pivot/Body.flip_h = velocity.x < 0
+
+func float_clamp(theta):
+	while theta > 2 * PI:
+		theta -= 2 * PI
+	while theta < 0:
+		theta += 2 * PI
+	if theta < THETA_MIN:
+		theta = THETA_MIN
+	if theta > THETA_MAX:
+		theta = THETA_MAX
+	return theta

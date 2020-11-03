@@ -9,4 +9,5 @@ position = Vector2( 112.377, 47.1937 )
 [node name="Character" parent="." instance=ExtResource( 2 )]
 
 [node name="Obstacle" parent="." instance=ExtResource( 1 )]
-position = Vector2( 23.2911, -5.19139 )
+position = Vector2( 10, -5.191 )
+mass = 0.00102041
