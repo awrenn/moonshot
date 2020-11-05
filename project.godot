@@ -16,8 +16,8 @@ _global_script_class_icons={
 [application]
 
 config/name="Moonshot"
-run/main_scene="res://MainMenu.tscn"
-config/icon="res://tan_wrench.png"
+run/main_scene="res://World.tscn"
+config/icon="res://icon.png"
 
 [rendering]
 

@@ -54,7 +54,6 @@ __meta__ = {
 visible = false
 frames = SubResource( 6 )
 animation = "Ghost"
-frame = 2
 playing = true
 centered = false
 offset = Vector2( -50, 10 )

@@ -15,7 +15,7 @@ scale = Vector2( 1.5, 1.7 )
 transform = Transform2D( 1.5, 0, 0, 1.7, 0, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 14.4677, 258.448 )
+position = Vector2( 62.4135, 447.984 )
 scale = Vector2( 2, 2 )
 
 [node name="Skeleton" parent="." instance=ExtResource( 2 )]
