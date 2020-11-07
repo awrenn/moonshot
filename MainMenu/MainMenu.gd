@@ -1,77 +1,34 @@
-extends Node2D
+extends CanvasLayer
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-const SELECT_TIMER = .1
-var selectTimer = .1
-
-var TEXT_WIDTH
-var TEXT_HEIGHT
-
-var selectedIndex = 0
+export (float) var speed = 25
 var nodes = []
-var selectedChanged = true
-
-var MAIN_MENU = [{
-	"text": "New Game",	
-	"next": "res://World.tscn",
-}, {
-	"text": "Leaderboard",
-	"next": "res://Leaderboard.tscn",
-}]
-
-var ListItemTemplate = preload("res://MainMenu/MainMenuItem.tscn")
-
+var Scenes = ["res://World.tscn", "", ""]
+var idx = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var vpH = get_viewport().size.y
-	var vpW = get_viewport().size.x
-	position.x = vpW * 1/3
-	position.y = vpH * 1/3
-	TEXT_HEIGHT = vpH * 1/20
-	TEXT_WIDTH = vpW * 1/2
-	
-	var heightOffset = 0
-	for item in MAIN_MENU:
-		heightOffset = init_label(item["text"], heightOffset)
-	nodes[0].find_node("ghost").show()
+	$Forest.transform.scaled(Vector2(1.7, 4))
+	$CenterContainer/Camera2D.position.y = get_viewport().size.y / 2
+	nodes.append($CenterContainer/Menu/MenuItem/Sprite)
+	nodes.append($CenterContainer/Menu/MenuItem2/Sprite)
+	nodes.append($CenterContainer/Menu/MenuItem3/Sprite)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	var changed = processKeys(delta)
-	if changed:
-		for i in nodes.size():
-			if i == selectedIndex:
-				nodes[i].find_node("ghost").show()
-			else:
-				nodes[i].find_node("ghost").hide()
-			
-
-func init_label(text, heightOffset):
-	var item = ListItemTemplate.instance()
-	item.position.y += heightOffset
-	var t = item.find_node("text")
-	t.set_size(Vector2(TEXT_WIDTH, TEXT_HEIGHT))
-	t.set_text(text)
-	add_child(item)
-	nodes.append(item)
-	return heightOffset + TEXT_HEIGHT
-	
-func processKeys(delta):
-	if selectTimer < SELECT_TIMER:
-		selectTimer += delta
-		return false
-	if Input.is_action_pressed("ui_up"):
-		changeSelected(-1)
-		return true
-	if Input.is_action_pressed("ui_down"):
-		changeSelected(1)
-		return true
-	if Input.is_key_pressed(KEY_SPACE):
-		get_tree().change_scene(MAIN_MENU[selectedIndex]["next"])
-	return false
+func get_input():
+	var prev_idx = idx
+	if Input.is_action_just_pressed("ui_up"):
+		idx -= 1
 		
-func changeSelected(dir):
-	selectTimer = 0
-	selectedIndex = clamp(selectedIndex + dir, 0, MAIN_MENU.size()-1)
+	if Input.is_action_just_pressed("ui_down"):
+		idx += 1
+		
+	idx = clamp(idx, 0, nodes.size() - 1)
+	if prev_idx != idx:
+		nodes[prev_idx].visible = false
+		nodes[idx].visible = true
+		
+	if Input.is_action_just_pressed("ui_accept"):
+		# TODO swith to the new scene
+		get_tree().change_scene(Scenes[idx])
+
+func _process(delta):
+	get_input()
+	$CenterContainer/Camera2D.position.x += speed * delta
