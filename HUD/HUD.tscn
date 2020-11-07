@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://HUD/ActionBar/AbilityButton/AbilityButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://HUD/ActionBar/AbilityBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Zassets/Final/Assets/Assets.png" type="Texture" id=3]
+[ext_resource path="res://Zassets/Health Bar Asset Pack 2 by Adwit Rahman/HealthBar DARK.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 18, 40, 64, 10 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 19, 30, 62, 7 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 240, 0, 40, 40 )
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="Health" type="TextureProgress" parent="."]
+margin_left = 18.0
+margin_top = 16.0
+margin_right = 82.0
+margin_bottom = 26.0
+rect_scale = Vector2( 4, 4 )
+value = 60.0
+texture_under = SubResource( 1 )
+texture_progress = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AbilityBar" parent="." instance=ExtResource( 2 )]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -64.0
+margin_top = -40.0
+margin_right = 64.0
+margin_bottom = 0.0
+
+[node name="AbilityButton" parent="AbilityBar" instance=ExtResource( 1 )]
+texture_normal = SubResource( 3 )
+
+[node name="AbilityButton2" parent="AbilityBar" instance=ExtResource( 1 )]
+margin_left = 44.0
+margin_right = 84.0
+texture_normal = SubResource( 3 )
+
+[node name="AbilityButton3" parent="AbilityBar" instance=ExtResource( 1 )]
+margin_left = 88.0
+margin_right = 128.0
+texture_normal = SubResource( 3 )

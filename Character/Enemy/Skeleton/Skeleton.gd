@@ -15,7 +15,7 @@ var velocity = Vector2.ZERO
 var player = null
 
 # Attack power
-var STENGTH = 2
+var STENGTH = 20
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,6 +27,9 @@ func choose_action():
 	
 	if current in attacks:
 		return
+		
+	if !player and state != states.DEAD:
+		state = states.PATROL
 		
 	var target
 	match state:
@@ -48,7 +51,7 @@ func choose_action():
 				$Position2D/Body.scale.x = -1
 			anim_state.travel("attack")
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	choose_action()
 	
 	if velocity.x > 0:
@@ -61,13 +64,9 @@ func _physics_process(_delta):
 	
 	if anim_state.get_current_node() == "walk" and velocity.length() == 0:
 		anim_state.travel("idle")
-		
+	
+	velocity.y += gravity * delta
 	velocity = move_and_slide(velocity)
-
-func _on_SwordBox_area_entered(area):
-	if area.is_in_group("hurtbox"):
-		area.take_damage(STENGTH)
-
 
 func _on_DetectRange_body_entered(body):
 	if body.is_in_group("player"):
@@ -84,6 +83,10 @@ func _on_AttackRange_body_entered(body):
 		state = states.ATTACK
 
 func _on_AttackRange_body_exited(body):
-	print(body, body.is_in_group("player"))
 	if body.is_in_group("player"):
 		state = states.CHASE
+		anim_state.travel("walk")
+
+func _on_SwordBox_body_entered(body):
+	if body.is_in_group("hitbox") and body.is_in_group("player"):
+		body.take_damage(STENGTH)
