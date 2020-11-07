@@ -1,12 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Stage/Forest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Character/Enemy/Skeleton/Skeleton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Character/Player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
+[ext_resource path="res://Objects/platform.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 389.168, 10 )
+extents = Vector2( 5000, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
 
 [node name="World" type="Node2D"]
 position = Vector2( 112.377, 47.1937 )
@@ -20,6 +23,11 @@ transform = Transform2D( 1.5, 0, 0, 1.7, 0, 0 )
 position = Vector2( 62.4135, 447.984 )
 scale = Vector2( 2, 2 )
 
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+offset = Vector2( 200, 150 )
+current = true
+drag_margin_v_enabled = true
+
 [node name="Skeleton" parent="." instance=ExtResource( 2 )]
 position = Vector2( 477.539, 453.441 )
 scale = Vector2( 2, 2 )
@@ -27,5 +35,26 @@ scale = Vector2( 2, 2 )
 [node name="Floor" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-position = Vector2( 304.781, 469.87 )
+position = Vector2( 5000, 470 )
 shape = SubResource( 1 )
+
+[node name="Left Wall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Wall"]
+position = Vector2( -10, 0 )
+scale = Vector2( 1, 100 )
+shape = SubResource( 2 )
+
+[node name="Platforms" type="Node2D" parent="."]
+
+[node name="First Hop" parent="Platforms" instance=ExtResource( 5 )]
+position = Vector2( 250, 400 )
+scale = Vector2( 4, 2 )
+
+[node name="Mind the Gap 1" parent="Platforms" instance=ExtResource( 5 )]
+position = Vector2( 763.737, 400 )
+scale = Vector2( 4, 2 )
+
+[node name="Mind the Gap 2" parent="Platforms" instance=ExtResource( 5 )]
+position = Vector2( 879.091, 360.756 )
+scale = Vector2( 4, 2 )
