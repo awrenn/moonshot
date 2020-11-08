@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Character/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Zassets/Final/Assets/Background_2.png" type="Texture" id=2]
+[ext_resource path="res://Character/Enemy/Bat/Bat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://HUD/HUD.tscn" type="PackedScene" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 457.456, 10 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 513.84, 533.97 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+position = Vector2( 511.191, 532.38 )
+scale = Vector2( 1.83945, 0.0690744 )
+texture = ExtResource( 2 )
+
+[node name="WallLeft" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
+position = Vector2( 513.84, 533.97 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="WallLeft"]
+position = Vector2( 63.038, 531.321 )
+rotation = 1.5708
+scale = Vector2( 1.83945, 0.0690744 )
+texture = ExtResource( 2 )
+
+[node name="WallRight" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
+position = Vector2( 513.84, 533.97 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="WallRight"]
+position = Vector2( 960.404, 536.618 )
+rotation = 1.5708
+scale = Vector2( 1.83945, 0.0690744 )
+texture = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 216.504, 518.822 )
+
+[node name="HUD2" parent="Player" instance=ExtResource( 4 )]
+
+[node name="Bat" parent="." instance=ExtResource( 3 )]
+position = Vector2( 583.591, 436.007 )
