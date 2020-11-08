@@ -45,19 +45,13 @@ func choose_action():
 			
 		states.ATTACK:
 			target = player.position
-			if target.x > position.x:
-				$Position2D/Body.scale.x = 1
-			elif target.x < position.x:
-				$Position2D/Body.scale.x = -1
+			$Position2D/Body.flip_h = target.x < position.x
 			anim_state.travel("attack")
 
 func _physics_process(delta):
 	choose_action()
 	
-	if velocity.x > 0:
-		$Position2D/Body.scale.x = 1
-	elif velocity.x < 0:
-		$Position2D/Body.scale.x = -1
+	$Position2D/Body.flip_h = velocity.x < 0
 	
 	if velocity.length() > 0:
 		anim_state.travel("walk")
