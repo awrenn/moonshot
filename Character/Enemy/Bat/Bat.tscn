@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://Character/Enemy/Bat/Bat.gd" type="Script" id=1]
 [ext_resource path="res://Character/Enemy/Healthbar/Healthbar.tscn" type="PackedScene" id=2]
@@ -207,6 +207,51 @@ animations = [ {
 "speed": 10.0
 } ]
 
+[sub_resource type="Animation" id=43]
+resource_name = "Attack"
+length = 0.75
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Attack" ]
+}
+
+[sub_resource type="AnimationNodeStateMachine" id=37]
+
+[sub_resource type="AnimationNodeStateMachine" id=41]
+
+[sub_resource type="AnimationNodeStateMachine" id=38]
+states/Idle/node = SubResource( 37 )
+states/Idle/position = Vector2( 126, 67 )
+states/StateMachine/node = SubResource( 41 )
+states/StateMachine/position = Vector2( 322, 83 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=39]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=40]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=42]
+
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 10, 6.57597 )
 
@@ -221,9 +266,18 @@ position = Vector2( -20, -20 )
 
 [node name="Body" type="AnimatedSprite" parent="Position2D"]
 frames = SubResource( 9 )
-animation = "Attack3"
-frame = 2
-playing = true
+animation = "Attack"
+frame = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Position2D/Body"]
+anims/Attack = SubResource( 43 )
+
+[node name="AnimationTree" type="AnimationTree" parent="Position2D/Body"]
+tree_root = SubResource( 38 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/playback = SubResource( 39 )
+parameters/Idle/playback = SubResource( 40 )
+parameters/StateMachine/playback = SubResource( 42 )
 
 [node name="FloorFinder" type="RayCast2D" parent="Position2D"]
 
