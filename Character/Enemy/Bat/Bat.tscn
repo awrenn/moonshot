@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Character/Enemy/Bat/Bat.gd" type="Script" id=1]
 [ext_resource path="res://Character/Enemy/Healthbar/Healthbar.tscn" type="PackedScene" id=2]
@@ -47,46 +47,6 @@ region = Rect2( 900, 0, 150, 150 )
 [sub_resource type="AtlasTexture" id=26]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 1050, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=2]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 150, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=3]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 300, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=4]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 450, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=1]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=5]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 600, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=6]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 750, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=7]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 900, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=8]
-flags = 4
-atlas = ExtResource( 3 )
 region = Rect2( 1050, 0, 150, 150 )
 
 [sub_resource type="AtlasTexture" id=27]
@@ -139,6 +99,46 @@ flags = 4
 atlas = ExtResource( 7 )
 region = Rect2( 450, 0, 150, 150 )
 
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 150, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 300, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 450, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 600, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 750, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 900, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 1050, 0, 150, 150 )
+
 [sub_resource type="AtlasTexture" id=11]
 flags = 4
 atlas = ExtResource( 5 )
@@ -184,31 +184,31 @@ animations = [ {
 "frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
 "loop": true,
 "name": "Attack2",
-"speed": 10.0
-}, {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 1 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
 "loop": true,
 "name": "Attack3",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
 "loop": true,
 "name": "Dying",
 "speed": 5.0
 }, {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 1 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "Patrol",
+"speed": 10.0
+}, {
 "frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ],
 "loop": true,
 "name": "Attack",
-"speed": 10.0
+"speed": 5.0
 } ]
 
 [sub_resource type="Animation" id=43]
-resource_name = "Attack"
+resource_name = "Attack1"
 length = 0.75
 loop = true
 tracks/0/type = "value"
@@ -235,27 +235,204 @@ tracks/1/keys = {
 "update": 1,
 "values": [ "Attack" ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("ChompBox/ChompCollider:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.4, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
-[sub_resource type="AnimationNodeStateMachine" id=37]
+[sub_resource type="Animation" id=57]
+resource_name = "Attack2"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ "Attack2" ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpinBox/SpinCollider:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.4, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
-[sub_resource type="AnimationNodeStateMachine" id=41]
+[sub_resource type="Animation" id=58]
+resource_name = "Attack3"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Attack3" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpookBox/SpookCollider:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=44]
+resource_name = "Patrol"
+length = 0.75
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Patrol" ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=45]
+animation = "Attack1"
+
+[sub_resource type="AnimationNodeAnimation" id=59]
+animation = "Attack2"
+
+[sub_resource type="AnimationNodeAnimation" id=60]
+animation = "Attack3"
+
+[sub_resource type="AnimationNodeAnimation" id=46]
+animation = "Patrol"
+
+[sub_resource type="AnimationNodeAnimation" id=47]
+animation = "Patrol"
+
+[sub_resource type="AnimationNodeAnimation" id=51]
+animation = "Patrol"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=50]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=52]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=53]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=54]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=55]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=56]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=61]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=62]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=63]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=64]
+switch_mode = 2
+auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachine" id=38]
-states/Idle/node = SubResource( 37 )
-states/Idle/position = Vector2( 126, 67 )
-states/StateMachine/node = SubResource( 41 )
-states/StateMachine/position = Vector2( 322, 83 )
+states/attack1/node = SubResource( 45 )
+states/attack1/position = Vector2( 393, 258 )
+states/attack2/node = SubResource( 59 )
+states/attack2/position = Vector2( 214, 424 )
+states/attack3/node = SubResource( 60 )
+states/attack3/position = Vector2( 37, 258 )
+states/flee/node = SubResource( 46 )
+states/flee/position = Vector2( 393, 95 )
+states/patrol/node = SubResource( 47 )
+states/patrol/position = Vector2( 214, 95 )
+states/stalk/node = SubResource( 51 )
+states/stalk/position = Vector2( 214, 258 )
+transitions = [ "flee", "patrol", SubResource( 50 ), "attack1", "stalk", SubResource( 52 ), "stalk", "attack1", SubResource( 53 ), "stalk", "patrol", SubResource( 54 ), "patrol", "stalk", SubResource( 55 ), "stalk", "flee", SubResource( 56 ), "stalk", "attack2", SubResource( 61 ), "stalk", "attack3", SubResource( 62 ), "attack2", "stalk", SubResource( 63 ), "attack3", "stalk", SubResource( 64 ) ]
+start_node = "patrol"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=39]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=40]
+[sub_resource type="CapsuleShape2D" id=65]
+height = 12.6181
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=42]
+[sub_resource type="CircleShape2D" id=66]
+
+[sub_resource type="RectangleShape2D" id=67]
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 10, 6.57597 )
 
-[node name="Bat" type="KinematicBody2D"]
+[node name="Bat" type="KinematicBody2D" groups=[
+"bats",
+]]
 script = ExtResource( 1 )
 gravity = 0
 
@@ -266,20 +443,49 @@ position = Vector2( -20, -20 )
 
 [node name="Body" type="AnimatedSprite" parent="Position2D"]
 frames = SubResource( 9 )
-animation = "Attack"
-frame = 4
+animation = "Patrol"
+frame = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Position2D/Body"]
-anims/Attack = SubResource( 43 )
+anims/Attack1 = SubResource( 43 )
+anims/Attack2 = SubResource( 57 )
+anims/Attack3 = SubResource( 58 )
+anims/Patrol = SubResource( 44 )
 
 [node name="AnimationTree" type="AnimationTree" parent="Position2D/Body"]
 tree_root = SubResource( 38 )
 anim_player = NodePath("../AnimationPlayer")
+active = true
 parameters/playback = SubResource( 39 )
-parameters/Idle/playback = SubResource( 40 )
-parameters/StateMachine/playback = SubResource( 42 )
+
+[node name="ChompBox" type="Area2D" parent="Position2D/Body"]
+visible = false
+
+[node name="ChompCollider" type="CollisionShape2D" parent="Position2D/Body/ChompBox"]
+position = Vector2( 10, 5 )
+rotation = 1.5708
+scale = Vector2( 0.4, 0.5 )
+shape = SubResource( 65 )
+
+[node name="SpinBox" type="Area2D" parent="Position2D/Body"]
+visible = false
+
+[node name="SpinCollider" type="CollisionShape2D" parent="Position2D/Body/SpinBox"]
+position = Vector2( 5, 0 )
+scale = Vector2( 2.5, 2.5 )
+shape = SubResource( 66 )
+
+[node name="SpookBox" type="Area2D" parent="Position2D/Body"]
+visible = false
+
+[node name="SpookCollider" type="CollisionShape2D" parent="Position2D/Body/SpookBox"]
+position = Vector2( 10, 5 )
+scale = Vector2( 1, 1.5 )
+shape = SubResource( 67 )
+disabled = true
 
 [node name="FloorFinder" type="RayCast2D" parent="Position2D"]
+visible = false
 
 [node name="Shadow" type="Sprite" parent="Position2D/FloorFinder"]
 texture = ExtResource( 4 )
@@ -287,3 +493,6 @@ texture = ExtResource( 4 )
 [node name="Feet" type="CollisionShape2D" parent="."]
 position = Vector2( 2.70618, 11.3445 )
 shape = SubResource( 10 )
+[connection signal="body_entered" from="Position2D/Body/ChompBox" to="." method="_on_ChompBox_body_entered"]
+[connection signal="body_entered" from="Position2D/Body/SpinBox" to="." method="_on_SpinBox_body_entered"]
+[connection signal="body_entered" from="Position2D/Body/SpookBox" to="." method="_on_SpookBox_body_entered"]
