@@ -146,6 +146,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id=19]
 length = 0.4
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:animation")
 tracks/0/interp = 1
@@ -173,6 +174,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=20]
 length = 0.4
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:animation")
 tracks/0/interp = 1
@@ -209,11 +211,11 @@ animation = "walk"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=24]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+
 [sub_resource type="AnimationNodeStateMachineTransition" id=26]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=27]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=33]
 switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id=28]
@@ -223,7 +225,7 @@ states/idle/node = SubResource( 22 )
 states/idle/position = Vector2( 334, 143 )
 states/walk/node = SubResource( 23 )
 states/walk/position = Vector2( 342, 237 )
-transitions = [ "idle", "attack", SubResource( 24 ), "walk", "idle", SubResource( 26 ), "idle", "walk", SubResource( 27 ), "attack", "idle", SubResource( 33 ) ]
+transitions = [ "idle", "attack", SubResource( 24 ), "walk", "idle", SubResource( 25 ), "idle", "walk", SubResource( 26 ), "attack", "idle", SubResource( 27 ) ]
 start_node = "idle"
 graph_offset = Vector2( -159.723, 0 )
 
@@ -249,11 +251,9 @@ scale = Vector2( 1, 1 )
 position = Vector2( 0.28997, -26.4252 )
 frames = SubResource( 17 )
 animation = "idle"
-frame = 1
-playing = true
+frame = 2
 
 [node name="AnimationPlayer" parent="Position2D/Body" index="0"]
-autoplay = "idle"
 anims/attack = SubResource( 18 )
 anims/idle = SubResource( 19 )
 anims/walk = SubResource( 20 )

@@ -1,9 +1,12 @@
 extends "res://Character/Character.gd"
 
+const STRENGTH = 50
+
 export (int) var speed = 250
 export (int) var jump_speed = -600
 export (float, 0, 1.0) var friction = 0.1
 export (float, 0, 1.0) var acceleration = 0.5
+export (bool) var attacking = false
 
 var velocity = Vector2.ZERO
 var anim_state
@@ -16,6 +19,7 @@ func _ready():
 func get_input():
 	var right = Input.is_action_pressed("ui_right")
 	var left = Input.is_action_pressed("ui_left")
+	var attack = Input.is_key_pressed(KEY_SPACE)
 
 	var dir = 0
 	if right:
@@ -29,6 +33,9 @@ func get_input():
 		velocity.x = lerp(velocity.x, 0, friction)
 		if anim_state.get_current_node() == "walk":
 			anim_state.travel("idle")
+			
+	if attack && not attacking:
+		anim_state.travel("attack")
 
 func _physics_process(delta):
 	get_input()
@@ -56,3 +63,9 @@ func take_damage(value):
 	if health == 0:
 		anim_state.travel("death")
 
+
+
+func _on_SwordBox_body_entered(body):
+	if !body.is_in_group("enemy"):
+		return
+	body.take_damage(STRENGTH)

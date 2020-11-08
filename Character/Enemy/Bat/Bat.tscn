@@ -428,7 +428,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=44]
+[sub_resource type="Animation" id=77]
 resource_name = "Patrol"
 length = 0.75
 loop = true
@@ -548,6 +548,7 @@ extents = Vector2( 10, 6.57597 )
 
 [node name="Bat" type="KinematicBody2D" groups=[
 "bats",
+"enemy",
 ]]
 script = ExtResource( 1 )
 gravity = 200
@@ -560,7 +561,7 @@ position = Vector2( -20, -20 )
 [node name="Body" type="AnimatedSprite" parent="Position2D"]
 frames = SubResource( 9 )
 animation = "Patrol"
-frame = 5
+frame = 7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Position2D/Body"]
 anims/Attack1 = SubResource( 43 )
@@ -568,7 +569,7 @@ anims/Attack2 = SubResource( 57 )
 anims/Attack3 = SubResource( 58 )
 anims/Death = SubResource( 74 )
 anims/Falling = SubResource( 70 )
-anims/Patrol = SubResource( 44 )
+anims/Patrol = SubResource( 77 )
 
 [node name="AnimationTree" type="AnimationTree" parent="Position2D/Body"]
 tree_root = SubResource( 38 )
