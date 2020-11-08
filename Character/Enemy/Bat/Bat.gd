@@ -4,7 +4,7 @@ extends "res://Character/Enemy/Enemy.gd"
 # var a = 2
 # var b = "text"
 
-enum states {PATROL, FLEE, STALK, ATTACK, DEAD}
+enum states {PATROL, FLEE, STALK, ATTACK, DYING, DEAD}
 var curState = states.PATROL
 var yPos ## Y should be constant for lifetime - set this at object creation
 
@@ -30,17 +30,24 @@ const STRENGTH = 5
 var attacks = ["attack1", "attack2", "attack3"]
 
 var animState
-
+var deathTimer = 0
+var DEATH_TIME = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	animState = $Position2D/Body/AnimationTree.get("parameters/playback")
 	animState.start("patrol")
-	enterPatrol()
 	yPos = position.y
+	gravity = 0
+	enterPatrol()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	position.y += gravity * delta
+	if curState == states.DEAD:
+		return
+	checkDeath(delta)
+	
 	checkStateTransition()
 	if curState == states.PATROL:
 		patrol(delta)
@@ -51,7 +58,13 @@ func _process(delta):
 	elif curState == states.ATTACK:
 		attack(delta)
 	$Position2D/Body.flip_h = moveDir.x == -1
-		
+	
+
+func checkDeath(delta):
+	if deathTimer > DEATH_TIME:
+		enterDying()
+	deathTimer += delta
+
 func patrol(delta):
 	if position.x < patrolStart.x or position.x > patrolStart.x + PATROL_LENGTH:
 		moveDir.x *= -1
@@ -122,6 +135,11 @@ func friendCount():
 
 func doDamage(body):
 	body.take_damage(STRENGTH)
+
+func enterDying():
+	curState = states.DYING
+	
+	animState.travel("dying")
 	
 func _on_ChompBox_body_entered(body):
 	if body.is_in_group("hitbox") and body.is_in_group("player"):
@@ -131,7 +149,16 @@ func _on_SpinBox_body_entered(body):
 	if body.is_in_group("hitbox") and body.is_in_group("player"):
 		doDamage(body)
 
-
 func _on_SpookBox_body_entered(body):
 	if body.is_in_group("hitbox") and body.is_in_group("player"):
 		doDamage(body)
+
+
+func _on_DyingBox_body_entered(body):
+	if body.is_in_group("bats"):
+		return
+	animState.travel("dead")
+	curState = states.DEAD
+	gravity = 0
+	yield(get_tree().create_timer(2.0), "timeout")
+	queue_free()

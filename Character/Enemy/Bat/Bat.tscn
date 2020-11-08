@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=77 format=2]
 
 [ext_resource path="res://Character/Enemy/Bat/Bat.gd" type="Script" id=1]
 [ext_resource path="res://Character/Enemy/Healthbar/Healthbar.tscn" type="PackedScene" id=2]
@@ -89,12 +89,12 @@ flags = 4
 atlas = ExtResource( 7 )
 region = Rect2( 150, 0, 150, 150 )
 
-[sub_resource type="AtlasTexture" id=35]
+[sub_resource type="AtlasTexture" id=68]
 flags = 4
 atlas = ExtResource( 7 )
 region = Rect2( 300, 0, 150, 150 )
 
-[sub_resource type="AtlasTexture" id=36]
+[sub_resource type="AtlasTexture" id=69]
 flags = 4
 atlas = ExtResource( 7 )
 region = Rect2( 450, 0, 150, 150 )
@@ -191,9 +191,14 @@ animations = [ {
 "name": "Attack3",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
+"frames": [ SubResource( 33 ), SubResource( 34 ) ],
 "loop": true,
 "name": "Dying",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 68 ), SubResource( 69 ) ],
+"loop": true,
+"name": "Dead",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 1 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
@@ -329,6 +334,100 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 
+[sub_resource type="Animation" id=74]
+resource_name = "Death"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Dead" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("DyingBox/DyingCollider:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=70]
+resource_name = "Falling"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Dying" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 1 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../..:gravity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 200 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("DyingBox/DyingCollider:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
 [sub_resource type="Animation" id=44]
 resource_name = "Patrol"
 length = 0.75
@@ -367,6 +466,12 @@ animation = "Attack2"
 [sub_resource type="AnimationNodeAnimation" id=60]
 animation = "Attack3"
 
+[sub_resource type="AnimationNodeAnimation" id=75]
+animation = "Death"
+
+[sub_resource type="AnimationNodeAnimation" id=71]
+animation = "Falling"
+
 [sub_resource type="AnimationNodeAnimation" id=46]
 animation = "Patrol"
 
@@ -402,6 +507,10 @@ auto_advance = true
 switch_mode = 2
 auto_advance = true
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=72]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=76]
+
 [sub_resource type="AnimationNodeStateMachine" id=38]
 states/attack1/node = SubResource( 45 )
 states/attack1/position = Vector2( 393, 258 )
@@ -409,14 +518,19 @@ states/attack2/node = SubResource( 59 )
 states/attack2/position = Vector2( 214, 424 )
 states/attack3/node = SubResource( 60 )
 states/attack3/position = Vector2( 37, 258 )
+states/dead/node = SubResource( 75 )
+states/dead/position = Vector2( -111.312, 95 )
+states/dying/node = SubResource( 71 )
+states/dying/position = Vector2( 42, 95 )
 states/flee/node = SubResource( 46 )
 states/flee/position = Vector2( 393, 95 )
 states/patrol/node = SubResource( 47 )
 states/patrol/position = Vector2( 214, 95 )
 states/stalk/node = SubResource( 51 )
 states/stalk/position = Vector2( 214, 258 )
-transitions = [ "flee", "patrol", SubResource( 50 ), "attack1", "stalk", SubResource( 52 ), "stalk", "attack1", SubResource( 53 ), "stalk", "patrol", SubResource( 54 ), "patrol", "stalk", SubResource( 55 ), "stalk", "flee", SubResource( 56 ), "stalk", "attack2", SubResource( 61 ), "stalk", "attack3", SubResource( 62 ), "attack2", "stalk", SubResource( 63 ), "attack3", "stalk", SubResource( 64 ) ]
+transitions = [ "flee", "patrol", SubResource( 50 ), "attack1", "stalk", SubResource( 52 ), "stalk", "attack1", SubResource( 53 ), "stalk", "patrol", SubResource( 54 ), "patrol", "stalk", SubResource( 55 ), "stalk", "flee", SubResource( 56 ), "stalk", "attack2", SubResource( 61 ), "stalk", "attack3", SubResource( 62 ), "attack2", "stalk", SubResource( 63 ), "attack3", "stalk", SubResource( 64 ), "patrol", "dying", SubResource( 72 ), "dying", "dead", SubResource( 76 ) ]
 start_node = "patrol"
+graph_offset = Vector2( -364.312, -27 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=39]
 
@@ -427,6 +541,8 @@ height = 12.6181
 
 [sub_resource type="RectangleShape2D" id=67]
 
+[sub_resource type="CapsuleShape2D" id=73]
+
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 10, 6.57597 )
 
@@ -434,7 +550,7 @@ extents = Vector2( 10, 6.57597 )
 "bats",
 ]]
 script = ExtResource( 1 )
-gravity = 0
+gravity = 200
 
 [node name="HealthDisplay" parent="." instance=ExtResource( 2 )]
 position = Vector2( -20, -20 )
@@ -450,6 +566,8 @@ frame = 5
 anims/Attack1 = SubResource( 43 )
 anims/Attack2 = SubResource( 57 )
 anims/Attack3 = SubResource( 58 )
+anims/Death = SubResource( 74 )
+anims/Falling = SubResource( 70 )
 anims/Patrol = SubResource( 44 )
 
 [node name="AnimationTree" type="AnimationTree" parent="Position2D/Body"]
@@ -484,6 +602,13 @@ scale = Vector2( 1, 1.5 )
 shape = SubResource( 67 )
 disabled = true
 
+[node name="DyingBox" type="Area2D" parent="Position2D/Body"]
+
+[node name="DyingCollider" type="CollisionShape2D" parent="Position2D/Body/DyingBox"]
+position = Vector2( 5, 5 )
+shape = SubResource( 73 )
+disabled = true
+
 [node name="FloorFinder" type="RayCast2D" parent="Position2D"]
 visible = false
 
@@ -496,3 +621,4 @@ shape = SubResource( 10 )
 [connection signal="body_entered" from="Position2D/Body/ChompBox" to="." method="_on_ChompBox_body_entered"]
 [connection signal="body_entered" from="Position2D/Body/SpinBox" to="." method="_on_SpinBox_body_entered"]
 [connection signal="body_entered" from="Position2D/Body/SpookBox" to="." method="_on_SpookBox_body_entered"]
+[connection signal="body_entered" from="Position2D/Body/DyingBox" to="." method="_on_DyingBox_body_entered"]
