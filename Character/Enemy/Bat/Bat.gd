@@ -29,14 +29,13 @@ const ATTACK_RETURN_GRAVITY = 10 ## how fast do we return to our original level?
 const STRENGTH = 5
 var attacks = ["attack1", "attack2", "attack3"]
 
-var animState
 var deathTimer = 0
 var DEATH_TIME = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	animState = $Position2D/Body/AnimationTree.get("parameters/playback")
-	animState.start("patrol")
+	anim_state = $Position2D/Body/AnimationTree.get("parameters/playback")
+	anim_state.start("patrol")
 	yPos = position.y
 	gravity = 0
 	enterPatrol()
@@ -44,20 +43,18 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	position.y += gravity * delta
-	if curState == states.DEAD:
-		return
-	checkDeath(delta)
 	
 	checkStateTransition()
-	if curState == states.PATROL:
-		patrol(delta)
-	elif curState == states.FLEE:
-		flee(delta)
-	elif curState == states.STALK:
-		stalk(delta)
-	elif curState == states.ATTACK:
-		attack(delta)
-	$Position2D/Body.flip_h = moveDir.x == -1
+	match curState:
+		states.PATROL:
+			patrol(delta)
+		states.FLEE:
+			flee(delta)
+		states.STALK:
+			stalk(delta)
+		states.ATTACK:
+			attack(delta)
+	$Position2D/Body.scale.x = -1 if moveDir.x < 0 else 1
 	
 
 func checkDeath(delta):
@@ -80,10 +77,10 @@ func checkStateTransition():
 func enterPatrol():
 	patrolStart = position
 	curState = states.PATROL
-	animState.travel("patrol")
+	anim_state.travel("patrol")
 
 func enterFlee():
-	animState.travel("flee")
+	anim_state.travel("flee")
 	curState = states.FLEE
 	fleePoint = position.x + FLEE_DISTANCE * moveDir
 	
@@ -96,7 +93,7 @@ func enterStalk():
 	curState = states.STALK
 	
 func stalk(delta):
-	animState.travel("stalk")
+	anim_state.travel("stalk")
 	var players = get_tree().get_nodes_in_group("player")
 	if len(players) == 0:
 		return
@@ -112,7 +109,7 @@ func stalk(delta):
 	
 var attackVelocity = Vector2(0,0)
 func enterAttack():
-	animState.travel(attacks[randi() % attacks.size()])
+	anim_state.travel(attacks[randi() % attacks.size()])
 	curState = states.ATTACK
 	attackVelocity = Vector2(moveDir.x * PATROL_SPEED, ATTACK_DIP_SPEED)
 	
@@ -138,8 +135,7 @@ func doDamage(body):
 
 func enterDying():
 	curState = states.DYING
-	
-	animState.travel("dying")
+	anim_state.travel("death")
 	
 func _on_ChompBox_body_entered(body):
 	if body.is_in_group("hitbox") and body.is_in_group("player"):
@@ -157,7 +153,7 @@ func _on_SpookBox_body_entered(body):
 func _on_DyingBox_body_entered(body):
 	if body.is_in_group("bats"):
 		return
-	animState.travel("dead")
+	anim_state.travel("dead")
 	curState = states.DEAD
 	gravity = 0
 	yield(get_tree().create_timer(2.0), "timeout")

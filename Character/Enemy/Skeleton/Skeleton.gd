@@ -4,7 +4,6 @@ enum states {PATROL, CHASE, ATTACK, DEAD}
 var state = states.PATROL
 
 # For setting animations.
-var anim_state
 var run_speed = 25
 var attacks = ["attack"]
 var velocity = Vector2.ZERO
@@ -19,7 +18,7 @@ var STENGTH = 20
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	anim_state = $Position2D/Body/AnimationTree.get("parameters/playback")
+	pass
 
 func choose_action():
 	velocity = Vector2.ZERO
@@ -42,16 +41,15 @@ func choose_action():
 		states.CHASE:
 			target = player.position
 			velocity = (target - position).normalized() * run_speed
+			$Position2D/Body.scale.x = -1 if velocity.x < 0 else 1
 			
 		states.ATTACK:
 			target = player.position
-			$Position2D/Body.flip_h = target.x < position.x
+			$Position2D/Body.scale.x = -1 if target.x < position.x else 1
 			anim_state.travel("attack")
 
 func _physics_process(delta):
 	choose_action()
-	
-	$Position2D/Body.flip_h = velocity.x < 0
 	
 	if velocity.length() > 0:
 		anim_state.travel("walk")

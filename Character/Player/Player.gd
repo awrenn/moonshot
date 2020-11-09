@@ -9,7 +9,6 @@ export (float, 0, 1.0) var acceleration = 0.5
 export (bool) var attacking = false
 
 var velocity = Vector2.ZERO
-var anim_state
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -35,6 +34,7 @@ func get_input():
 			anim_state.travel("idle")
 			
 	if attack && not attacking:
+		#attacking = true
 		anim_state.travel("attack")
 
 func _physics_process(delta):
@@ -57,13 +57,6 @@ func _physics_process(delta):
 		if is_on_floor():
 			velocity.y = jump_speed
 			anim_state.travel("idle")
-			
-func take_damage(value):
-	.take_damage(value)
-	if health == 0:
-		anim_state.travel("death")
-
-
 
 func _on_SwordBox_body_entered(body):
 	if !body.is_in_group("enemy"):

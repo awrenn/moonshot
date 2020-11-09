@@ -72,7 +72,7 @@ alignment = 1
 position = Vector2( -0.943909, 14.1581 )
 frames = SubResource( 5 )
 animation = "idle"
-frame = 2
+frame = 1
 playing = true
 
 [node name="Text" type="Label" parent="CenterContainer/Menu/MenuItem"]
@@ -93,7 +93,6 @@ visible = false
 position = Vector2( -0.943909, 14.1581 )
 frames = SubResource( 5 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="Text" type="Label" parent="CenterContainer/Menu/MenuItem2"]
@@ -113,7 +112,6 @@ visible = false
 position = Vector2( -0.943909, 14.1581 )
 frames = SubResource( 5 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="Text" type="Label" parent="CenterContainer/Menu/MenuItem3"]

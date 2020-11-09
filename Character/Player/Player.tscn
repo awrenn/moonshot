@@ -300,7 +300,7 @@ tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0.4, 0.7 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ false, true ]
 }
 
@@ -456,7 +456,7 @@ position = Vector2( -24.7183, -46.137 )
 position = Vector2( 0, -12 )
 frames = SubResource( 53 )
 animation = "attack"
-frame = 4
+frame = 7
 
 [node name="AnimationPlayer" parent="Position2D/Body" index="0"]
 autoplay = "idle"
@@ -471,12 +471,16 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 65 )
 
-[node name="SwordBox" type="Area2D" parent="Position2D/Body" index="2"]
+[node name="SwordBox" type="Area2D" parent="Position2D/Body" index="2" groups=[
+"hitbox",
+"player",
+]]
 
 [node name="SwordCollider" type="CollisionShape2D" parent="Position2D/Body/SwordBox" index="0"]
 position = Vector2( 3, -8 )
 scale = Vector2( 2, 1.5 )
 shape = SubResource( 77 )
+disabled = true
 
 [node name="Shadow" parent="Position2D/FloorFinder" index="0"]
 position = Vector2( 0.0625005, -8.375 )

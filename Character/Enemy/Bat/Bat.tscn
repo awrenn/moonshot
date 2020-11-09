@@ -520,15 +520,15 @@ states/attack3/node = SubResource( 60 )
 states/attack3/position = Vector2( 37, 258 )
 states/dead/node = SubResource( 75 )
 states/dead/position = Vector2( -111.312, 95 )
-states/dying/node = SubResource( 71 )
-states/dying/position = Vector2( 42, 95 )
+states/death/node = SubResource( 71 )
+states/death/position = Vector2( 42, 95 )
 states/flee/node = SubResource( 46 )
 states/flee/position = Vector2( 393, 95 )
 states/patrol/node = SubResource( 47 )
 states/patrol/position = Vector2( 214, 95 )
 states/stalk/node = SubResource( 51 )
 states/stalk/position = Vector2( 214, 258 )
-transitions = [ "flee", "patrol", SubResource( 50 ), "attack1", "stalk", SubResource( 52 ), "stalk", "attack1", SubResource( 53 ), "stalk", "patrol", SubResource( 54 ), "patrol", "stalk", SubResource( 55 ), "stalk", "flee", SubResource( 56 ), "stalk", "attack2", SubResource( 61 ), "stalk", "attack3", SubResource( 62 ), "attack2", "stalk", SubResource( 63 ), "attack3", "stalk", SubResource( 64 ), "patrol", "dying", SubResource( 72 ), "dying", "dead", SubResource( 76 ) ]
+transitions = [ "flee", "patrol", SubResource( 50 ), "attack1", "stalk", SubResource( 52 ), "stalk", "attack1", SubResource( 53 ), "stalk", "patrol", SubResource( 54 ), "patrol", "stalk", SubResource( 55 ), "stalk", "flee", SubResource( 56 ), "stalk", "attack2", SubResource( 61 ), "stalk", "attack3", SubResource( 62 ), "attack2", "stalk", SubResource( 63 ), "attack3", "stalk", SubResource( 64 ), "patrol", "death", SubResource( 72 ), "death", "dead", SubResource( 76 ) ]
 start_node = "patrol"
 graph_offset = Vector2( -364.312, -27 )
 
@@ -561,7 +561,6 @@ position = Vector2( -20, -20 )
 [node name="Body" type="AnimatedSprite" parent="Position2D"]
 frames = SubResource( 9 )
 animation = "Patrol"
-frame = 7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Position2D/Body"]
 anims/Attack1 = SubResource( 43 )
